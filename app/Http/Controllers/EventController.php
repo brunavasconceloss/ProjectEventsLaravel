@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Event;
+use App\Models\User;
 
 class EventController extends Controller
 {
@@ -58,7 +59,7 @@ class EventController extends Controller
 
         }
 
-        $user = auth()->user();
+        $user = auth()->user(); //usuário logado
         $event->user_id = $user->id;
 
         $event->save();
@@ -71,8 +72,21 @@ class EventController extends Controller
 
         $event = Event::findOrFail($id);
 
-        return view('events.show', ['event' => $event]);
+        //encontrnado usuário pelo id | "first" quando encontra o primeiro para de procurar
+        $eventOwner = user::where('id', $event->user_id)->first()->toArray();
+
+        return view('events.show', ['event' => $event,'eventOwner' => $eventOwner]);
         
     }
 
+    public function dashboard() {
+        
+        $user = auth()->user();
+
+        //verificando os eventos do usuário
+        $events = $user->events;
+
+        //eviando evento para views
+        return view('events.dashboard', ['events' => $events]);
+    }
 }

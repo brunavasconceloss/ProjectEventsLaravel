@@ -192,6 +192,15 @@
   #items-list li {
     display: flex;
   }
+
+  /* Dashboard */
+  .dashboard-title-container {
+    margin-bottom: 30px;
+    margin-top: 30px;
+  }
+
+  .dashboard-events-container th {
+  }
   
   /* footer */
   footer {
@@ -202,6 +211,10 @@
     position: absolute;
     bottom: 0;
     width: 100%;
+  }
+
+  #description-container {
+    margin-top: 30px;
   }
   
   footer p {
