@@ -56,9 +56,9 @@ class EventController extends Controller
             $requestImage->move(public_path('img/events'), $imageName);
 
             $event->image = $imageName;
-
+            
         }
-
+        
         $user = auth()->user(); //usuário logado
         $event->user_id = $user->id;
 
@@ -78,7 +78,7 @@ class EventController extends Controller
         return view('events.show', ['event' => $event,'eventOwner' => $eventOwner]);
         
     }
-
+    
     public function dashboard() {
         
         $user = auth()->user();
@@ -88,5 +88,39 @@ class EventController extends Controller
 
         //eviando evento para views
         return view('events.dashboard', ['events' => $events]);
+    }
+
+    public function destroy($id) {
+        
+        Event::findOrFail($id)->delete();
+        
+        return redirect('/dashboard')->with('msg', 'Evento excluído com sucesso!');
+        
+    }
+    
+    public function edit($id) {
+        
+        $event = Event::findOrFail($id);
+        
+        return view('events.edit', ['event' => $event]);
+    }
+    
+    public function update(Request $request) {
+        
+        $data = $request->all();
+
+       // Image Upload
+       if($request->hasFile('image') && $request->file('image')->isValid()) {
+            $requestImage = $request->image;
+            $extension = $requestImage->extension();
+            $imageName = md5($requestImage->getClientOriginalName() . strtotime("now")) . "." . $extension;
+            $requestImage->move(public_path('img/events'), $imageName);
+            $data['image'] = $imageName;   
+        }
+            
+        Event::findOrFail($request->id)->update($data);
+        
+        return redirect('/dashboard')->with('msg', 'Evento editado com sucesso!');
+
     }
 }

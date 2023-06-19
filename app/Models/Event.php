@@ -15,6 +15,10 @@ class Event extends Model
 
     protected $dates = ['date'];
 
+    /*Tudo que for enviando pelo POST pode ser atualizado
+      Caso seja inserido algum campo o Laravel não permite que o mesmo seja atualizado*/
+    protected $guarded = [];
+
     public function user() {
 
         //Evento pertence a um usuário
