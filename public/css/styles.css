@@ -98,7 +98,7 @@ header {
 }
 
 #cards-container {
-  display: flex;
+  display:flex;
 }
 
 #events-container .card {

@@ -19,10 +19,13 @@ class Event extends Model
       Caso seja inserido algum campo o Laravel não permite que o mesmo seja atualizado*/
     protected $guarded = [];
 
+    //Evento pertence a um usuário
     public function user() {
-
-        //Evento pertence a um usuário
         return $this->belongsTo('App\Models\User');
-        
+    }
+
+    //Um usuário pode ter vários eventos
+    public function users() {
+        return $this->belongsToMany('App\Models\User');
     }
 }
